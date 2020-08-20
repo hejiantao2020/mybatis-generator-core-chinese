@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjt.springboot.mappers.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hjt.springboot.model.UserEntity">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_deal_name" jdbcType="VARCHAR" property="userDealName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    user_id, user_name, user_deal_name, password, user_phone, user_address, deleted, 
+    create_time, update_time, create_user, update_user
+  </sql>
+  <select id="selectByExample" parameterType="com.hjt.springboot.model.UserEntityCriteria" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hjt.springboot.model.UserEntityCriteria">
+    delete from sys_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hjt.springboot.model.UserEntity">
+    insert into sys_user (user_id, user_name, user_deal_name, 
+      password, user_phone, user_address, 
+      deleted, create_time, update_time, 
+      create_user, update_user)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userDealName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR}, 
+      #{deleted,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hjt.springboot.model.UserEntity">
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userDealName != null">
+        user_deal_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="userAddress != null">
+        user_address,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userDealName != null">
+        #{userDealName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null">
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into sys_user (user_id, user_name, user_deal_name, 
+      password, user_phone, user_address, 
+      deleted, create_time, update_time, 
+      create_user, update_user)
+    values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.userId,jdbcType=INTEGER}, #{item.userName,jdbcType=VARCHAR}, #{item.userDealName,jdbcType=VARCHAR}, 
+        #{item.password,jdbcType=VARCHAR}, #{item.userPhone,jdbcType=VARCHAR}, #{item.userAddress,jdbcType=VARCHAR}, 
+        #{item.deleted,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.createUser,jdbcType=VARCHAR}, #{item.updateUser,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertBatchSelective" parameterType="java.util.List">
+    insert into sys_user
+    (user_id, user_name, user_deal_name, password, user_phone, user_address, deleted, 
+      create_time, update_time, create_user, update_user)
+    values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="item.userId != null">
+          #{item.userId,jdbcType=INTEGER},
+        </if>
+        <if test="item.userId == null">
+          NULL,
+        </if>
+        <if test="item.userName != null">
+          #{item.userName,jdbcType=VARCHAR},
+        </if>
+        <if test="item.userName == null">
+          NULL,
+        </if>
+        <if test="item.userDealName != null">
+          #{item.userDealName,jdbcType=VARCHAR},
+        </if>
+        <if test="item.userDealName == null">
+          NULL,
+        </if>
+        <if test="item.password != null">
+          #{item.password,jdbcType=VARCHAR},
+        </if>
+        <if test="item.password == null">
+          NULL,
+        </if>
+        <if test="item.userPhone != null">
+          #{item.userPhone,jdbcType=VARCHAR},
+        </if>
+        <if test="item.userPhone == null">
+          NULL,
+        </if>
+        <if test="item.userAddress != null">
+          #{item.userAddress,jdbcType=VARCHAR},
+        </if>
+        <if test="item.userAddress == null">
+          NULL,
+        </if>
+        <if test="item.deleted != null">
+          #{item.deleted,jdbcType=INTEGER},
+        </if>
+        <if test="item.deleted == null">
+          NULL,
+        </if>
+        <if test="item.createTime != null">
+          #{item.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.createTime == null">
+          NULL,
+        </if>
+        <if test="item.updateTime != null">
+          #{item.updateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.updateTime == null">
+          NULL,
+        </if>
+        <if test="item.createUser != null">
+          #{item.createUser,jdbcType=VARCHAR},
+        </if>
+        <if test="item.createUser == null">
+          NULL,
+        </if>
+        <if test="item.updateUser != null">
+          #{item.updateUser,jdbcType=VARCHAR},
+        </if>
+        <if test="item.updateUser == null">
+          NULL,
+        </if>
+      </trim>
+    </foreach>
+  </insert>
+  <select id="countByExample" parameterType="com.hjt.springboot.model.UserEntityCriteria" resultType="java.lang.Long">
+    select count(*) from sys_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_user
+    <set>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDealName != null">
+        user_deal_name = #{record.userDealName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhone != null">
+        user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAddress != null">
+        user_address = #{record.userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_user
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_deal_name = #{record.userDealName,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      user_address = #{record.userAddress,jdbcType=VARCHAR},
+      deleted = #{record.deleted,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hjt.springboot.model.UserEntity">
+    update sys_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userDealName != null">
+        user_deal_name = #{userDealName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null">
+        user_address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hjt.springboot.model.UserEntity">
+    update sys_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_deal_name = #{userDealName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateBatchByPrimaryKey" parameterType="java.util.List">
+    update sys_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="user_name =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.userName}
+        </foreach>
+      </trim>
+      <trim prefix="user_deal_name =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.userDealName}
+        </foreach>
+      </trim>
+      <trim prefix="password =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.password}
+        </foreach>
+      </trim>
+      <trim prefix="user_phone =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.userPhone}
+        </foreach>
+      </trim>
+      <trim prefix="user_address =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.userAddress}
+        </foreach>
+      </trim>
+      <trim prefix="deleted =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.deleted}
+        </foreach>
+      </trim>
+      <trim prefix="create_time =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.createTime}
+        </foreach>
+      </trim>
+      <trim prefix="update_time =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.updateTime}
+        </foreach>
+      </trim>
+      <trim prefix="create_user =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.createUser}
+        </foreach>
+      </trim>
+      <trim prefix="update_user =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.updateUser}
+        </foreach>
+      </trim>
+    </trim>
+    where user_id in 
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+       #{item.userId} 
+    </foreach>
+  </update>
+  <update id="updateBatchByPrimaryKeySelective" parameterType="java.util.List">
+    update sys_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="user_name =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.userName != null ">
+            when  #{item.userId} then #{item.userName}
+          </if>
+          <if test="item.userName == null ">
+            when  #{item.userId} then sys_user.user_name
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="user_deal_name =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.userDealName != null ">
+            when  #{item.userId} then #{item.userDealName}
+          </if>
+          <if test="item.userDealName == null ">
+            when  #{item.userId} then sys_user.user_deal_name
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="password =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.password != null ">
+            when  #{item.userId} then #{item.password}
+          </if>
+          <if test="item.password == null ">
+            when  #{item.userId} then sys_user.password
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="user_phone =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.userPhone != null ">
+            when  #{item.userId} then #{item.userPhone}
+          </if>
+          <if test="item.userPhone == null ">
+            when  #{item.userId} then sys_user.user_phone
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="user_address =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.userAddress != null ">
+            when  #{item.userId} then #{item.userAddress}
+          </if>
+          <if test="item.userAddress == null ">
+            when  #{item.userId} then sys_user.user_address
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="deleted =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.deleted != null ">
+            when  #{item.userId} then #{item.deleted}
+          </if>
+          <if test="item.deleted == null ">
+            when  #{item.userId} then sys_user.deleted
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.createTime != null ">
+            when  #{item.userId} then #{item.createTime}
+          </if>
+          <if test="item.createTime == null ">
+            when  #{item.userId} then sys_user.create_time
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_time =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.updateTime != null ">
+            when  #{item.userId} then #{item.updateTime}
+          </if>
+          <if test="item.updateTime == null ">
+            when  #{item.userId} then sys_user.update_time
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_user =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.createUser != null ">
+            when  #{item.userId} then #{item.createUser}
+          </if>
+          <if test="item.createUser == null ">
+            when  #{item.userId} then sys_user.create_user
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_user =case user_id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.updateUser != null ">
+            when  #{item.userId} then #{item.updateUser}
+          </if>
+          <if test="item.updateUser == null ">
+            when  #{item.userId} then sys_user.update_user
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where user_id in 
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+       #{item.userId} 
+    </foreach>
+  </update>
+  <update id="updateBatchByExample" parameterType="map">
+    update sys_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="user_name =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.userName}
+        </foreach>
+      </trim>
+      <trim prefix="user_deal_name =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.userDealName}
+        </foreach>
+      </trim>
+      <trim prefix="password =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.password}
+        </foreach>
+      </trim>
+      <trim prefix="user_phone =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.userPhone}
+        </foreach>
+      </trim>
+      <trim prefix="user_address =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.userAddress}
+        </foreach>
+      </trim>
+      <trim prefix="deleted =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.deleted}
+        </foreach>
+      </trim>
+      <trim prefix="create_time =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.createTime}
+        </foreach>
+      </trim>
+      <trim prefix="update_time =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.updateTime}
+        </foreach>
+      </trim>
+      <trim prefix="create_user =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.createUser}
+        </foreach>
+      </trim>
+      <trim prefix="update_user =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.userId} then #{item.updateUser}
+        </foreach>
+      </trim>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateBatchByExampleSelective" parameterType="map">
+    update sys_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="user_name =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.userName != null ">
+            when  #{item.userId} then #{item.userName}
+          </if>
+          <if test="item.userName == null ">
+            when  #{item.userId} then sys_user.user_name
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="user_deal_name =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.userDealName != null ">
+            when  #{item.userId} then #{item.userDealName}
+          </if>
+          <if test="item.userDealName == null ">
+            when  #{item.userId} then sys_user.user_deal_name
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="password =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.password != null ">
+            when  #{item.userId} then #{item.password}
+          </if>
+          <if test="item.password == null ">
+            when  #{item.userId} then sys_user.password
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="user_phone =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.userPhone != null ">
+            when  #{item.userId} then #{item.userPhone}
+          </if>
+          <if test="item.userPhone == null ">
+            when  #{item.userId} then sys_user.user_phone
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="user_address =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.userAddress != null ">
+            when  #{item.userId} then #{item.userAddress}
+          </if>
+          <if test="item.userAddress == null ">
+            when  #{item.userId} then sys_user.user_address
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="deleted =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.deleted != null ">
+            when  #{item.userId} then #{item.deleted}
+          </if>
+          <if test="item.deleted == null ">
+            when  #{item.userId} then sys_user.deleted
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.createTime != null ">
+            when  #{item.userId} then #{item.createTime}
+          </if>
+          <if test="item.createTime == null ">
+            when  #{item.userId} then sys_user.create_time
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_time =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.updateTime != null ">
+            when  #{item.userId} then #{item.updateTime}
+          </if>
+          <if test="item.updateTime == null ">
+            when  #{item.userId} then sys_user.update_time
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_user =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.createUser != null ">
+            when  #{item.userId} then #{item.createUser}
+          </if>
+          <if test="item.createUser == null ">
+            when  #{item.userId} then sys_user.create_user
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_user =case user_id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.updateUser != null ">
+            when  #{item.userId} then #{item.updateUser}
+          </if>
+          <if test="item.updateUser == null ">
+            when  #{item.userId} then sys_user.update_user
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
